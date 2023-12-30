@@ -1,14 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Forms;
-using System.Windows.Input;
-using System.Windows.Interop;
-
+﻿
 namespace QuickMemo.Lib
 {
     /// <summary>
@@ -18,15 +8,15 @@ namespace QuickMemo.Lib
     {
         private class HotKeyItem
         {
-            public ModifierKeys ModifierKeys { get; set; }
-            public Key Key { get; set; }
+            public System.Windows.Input.ModifierKeys ModifierKeys { get; set; }
+            public System.Windows.Input.Key Key { get; set; }
             public EventHandler Handler { get; set; }
         }
 
-        [DllImport("user32.dll")]
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
         private static extern int RegisterHotKey(IntPtr hWnd, int id, int modKey, int vKey);
 
-        [DllImport("user32.dll")]
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
         private static extern int UnregisterHotKey(IntPtr hWnd, int id);
 
         private IntPtr _windowHandle;
@@ -36,14 +26,14 @@ namespace QuickMemo.Lib
         private const int MAX_HOTKEY_ID = 0xC000;
         private const int WM_HOTKEY = 0x0312;
 
-        public GlobalHotKey(Window window)
+        public GlobalHotKey(System.Windows.Window window)
         {
-            var host = new WindowInteropHelper(window);
+            var host = new System.Windows.Interop.WindowInteropHelper(window);
             _windowHandle = host.Handle;
-            ComponentDispatcher.ThreadPreprocessMessage += ComponentDispatcher_ThreadPreprocessMessage;
+            System.Windows.Interop.ComponentDispatcher.ThreadPreprocessMessage += ComponentDispatcher_ThreadPreprocessMessage;
         }
 
-        private void ComponentDispatcher_ThreadPreprocessMessage(ref MSG msg, ref bool handled)
+        private void ComponentDispatcher_ThreadPreprocessMessage(ref System.Windows.Interop.MSG msg, ref bool handled)
         {
             if (msg.message != WM_HOTKEY)
             {
@@ -61,10 +51,10 @@ namespace QuickMemo.Lib
         /// <param name="key"></param>
         /// <param name="handler"></param>
         /// <returns></returns>
-        public bool Register(ModifierKeys modKey, Key key, EventHandler handler)
+        public bool Register(System.Windows.Input.ModifierKeys modKey, System.Windows.Input.Key key, EventHandler handler)
         {
             var modKeyNum = (int)modKey;
-            var vKey = KeyInterop.VirtualKeyFromKey(key);
+            var vKey = System.Windows.Input.KeyInterop.VirtualKeyFromKey(key);
 
             while (_hotkeyID < MAX_HOTKEY_ID)
             {
@@ -98,7 +88,7 @@ namespace QuickMemo.Lib
         /// <param name="modifierKeys"></param>
         /// <param name="key"></param>
         /// <returns></returns>
-        public bool Unregister(ModifierKeys modifierKeys, Key key)
+        public bool Unregister(System.Windows.Input.ModifierKeys modifierKeys, System.Windows.Input.Key key)
         {
             var ret = false;
             var item = _hotkeyItems.

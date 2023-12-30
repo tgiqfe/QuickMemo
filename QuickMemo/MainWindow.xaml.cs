@@ -35,7 +35,19 @@ namespace QuickMemo
             globalhotKey = new(this);
             globalhotKey.Register(ModifierKeys.Control | ModifierKeys.Alt,
                 Key.PageUp,
-                (_, __) => { this.Show(); });
+                (_, __) =>
+                {
+                    if (this.IsVisible)
+                    {
+                        this.Activate();
+                        this.Topmost = true;
+                        this.Topmost = false;
+                    }
+                    else
+                    {
+                        this.Show();
+                    }
+                });
 
             textEditor.Focus();
         }
@@ -316,5 +328,10 @@ namespace QuickMemo
         {
             Item.BindingParam.Content.Text = this.textEditor.Text;
         }
+
+
+
+
+
     }
 }

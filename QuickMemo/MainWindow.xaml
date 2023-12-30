@@ -7,17 +7,12 @@
         xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
         mc:Ignorable="d"
         Width="{Binding Setting.Width, Mode=TwoWay}"
-        Height="{Binding Setting.Heght, Mode=TwoWay}"
+        Height="{Binding Setting.Height, Mode=TwoWay}"
         Left="{Binding Setting.X, Mode=TwoWay}"
         Top="{Binding Setting.Y, Mode=TwoWay}"
         PreviewKeyDown="Window_PreviewKeyDown"
         ResizeMode="NoResize"
         ShowInTaskbar="False">
-    <Window.Resources>
-        <Style TargetType="TextBox">
-            <Setter Property="Padding" Value="5,30,0,30" />
-        </Style>
-    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -33,7 +28,7 @@
                                ShowLineNumbers="False" 
                                Padding="0">
         </avalonEdit:TextEditor>
-        <TextBlock Text="aaaaaaaaaaaaa"
+        <TextBlock Text="QuickMemo"
                    Grid.Row="1">
         </TextBlock>
     </Grid>
